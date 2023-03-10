@@ -1,14 +1,26 @@
 {
   "name": "proyectonode",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Paula Polacco",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.18.2",
     "moment": "^2.29.4"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PaulaPolacco/ServidorExpress.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/PaulaPolacco/ServidorExpress/issues"
+  },
+  "homepage": "https://github.com/PaulaPolacco/ServidorExpress#readme",
+  "description": ""
 }
