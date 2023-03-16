@@ -2,9 +2,10 @@
   "name": "proyectonode",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "module",
+  "type": "module", 
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/app.js"
   },
   "author": "Paula Polacco",
   "license": "ISC",
