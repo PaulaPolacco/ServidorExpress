@@ -36,7 +36,10 @@ export default class ProductManager {
 
   updateProduct = async (idProduct, updatedItems) =>{
     const products = await this.getProducts()
+    console.log(this.path)
     let product = products.find(({id})  => id === idProduct)
+    console.log(product)
+
     if(product == undefined)
       throw new Error("Producto Not Found")
     else{

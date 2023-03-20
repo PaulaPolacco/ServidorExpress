@@ -21,17 +21,13 @@ export default class CartManager {
     const cart = carts.find((cart)  => id === cart.id)
     return cart
   }
-  addCart = async (cart) =>{
+  addCart = async () =>{
     const carts = await this.getCarts()
     let id = (carts.length !==0) ? carts[carts.length -1].id + 1 : 1
-    let exist = await this.getCart(id)
-    console.log(exist)
-    if(exist != undefined)
-      throw new Error("Carrito ya existe");
-    const newCart = {id, ...cart}
+    const newCart = {id, products:[]}
     carts.push(newCart)
     await fs.promises.writeFile(this.path, JSON.stringify(carts))
-    return {newCart}
+    return newCart
   }
   getProductsCart = async (id)=>{
     const cart = await this.getCart(id)

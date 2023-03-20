@@ -2,7 +2,7 @@ import { Router } from "express";
 import ProductManager from '../ProductManager.js'
 
 const router = Router();                    
-const productManager = new ProductManager('../Json/products.json')
+const productManager = new ProductManager('Json/products.json')
 
 router.get('/', async (req,res)=>{
     const{limit} = req.query
@@ -23,10 +23,11 @@ router.get('/:pid', async (req,res)=>{
 })
     
 
-router.put('/', async (req,res)=>{
+router.put('/:pid', async (req,res)=>{
+    const {pid} = req.params
     const obj = req.body
     try{
-        const updateProd = await productManager.updateProduct(obj)
+        const updateProd = await productManager.updateProduct(+pid, obj)
         res.json({message: 'Producto actualizado correctamente', product: {updateProd}})
     }
     catch (error) {

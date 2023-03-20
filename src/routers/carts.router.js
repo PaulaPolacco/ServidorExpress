@@ -2,7 +2,7 @@ import { Router } from "express";
 import CartManager from "../CartManager.js";
 
 const router = Router();
-const cartManager = new CartManager('../Json/carts.json')
+const cartManager = new CartManager('Json/carts.json')
 
 // router.get('/:cid', async (req,res)=>{
 //     const {cid} = req.params
@@ -24,10 +24,9 @@ router.get('/:cid', async (req,res)=>{
 })
 
 router.post('/', async (req,res)=>{
-    const obj = req.body
     try{
-        const newCart = await cartManager.addCart(obj)
-        res.json({message: 'Carrito creado correctamente', cart: newCart})
+        const newCart = await cartManager.addCart()
+        res.json({message: 'Carrito creado correctamente', newCart})
     }
     catch (error) {
         console.error(error);
