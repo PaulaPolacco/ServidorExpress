@@ -8,6 +8,7 @@ router.get('/', async (req,res)=>{
     const{limit} = req.query
     const productos = await productManager.getProducts(+limit)
     res.json({productos})
+    res.redirect('/views/')
 })
 
 router.get('/:pid', async (req,res)=>{
