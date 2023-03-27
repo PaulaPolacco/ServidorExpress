@@ -8,12 +8,8 @@ import { __dirname } from "./utils.js";
 import path from 'path'
 
 const app = express()
-app.use(express.static(__dirname + '/public/js', { 
-    setHeaders: function(res, path, stat) {
-      res.set('Content-Type', 'text/javascript');
-    }
-  }));
-
+app.use(express.static(path.join('C:\\Users\\paula\\OneDrive\\Documentos\\CoderHouse-DesarrolloBackend\\ProyectoNode\\src', '\\public')))
+console.log (__dirname)
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
