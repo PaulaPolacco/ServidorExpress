@@ -6,9 +6,15 @@ import cartsRouter from './routers/carts.router.js'
 import viewsRouter from './routers/views.router.js'
 import { __dirname } from "./utils.js";
 import path from 'path'
+import http from 'http'
+import ProductManager from './ProductManager.js'
+
+           
+const productManager = new ProductManager('Json/products.json')
+
 
 const app = express()
-app.use(express.static(path.join('C:\\Users\\paula\\OneDrive\\Documentos\\CoderHouse-DesarrolloBackend\\ProyectoNode\\src', '\\public')))
+app.use(express.static(path.join(__dirname, '/public')))
 console.log (__dirname)
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
@@ -33,6 +39,18 @@ const HttpServer = app.listen(8080, ()=>{console.log('Escuchando al puerto 8080'
 
 const socketServer = new Server(HttpServer)
 
-socketServer.on('connection', ()=>{
-    console.log('cliente conectado')
+socketServer.on("connection", (socket)=>{
+    console.log(`cliente conectado: ${socket.id}`)
+
+    socket.on('disconnect', ()=>{
+        console.log(`Usuario desconectado: ${socket.id}`)
+    })
+
+    socket.emit('Bienvenida', 'Bienvenido a Websockets')
+
+    socket.on('nuevoProducto', async (producto) =>{
+       producto = await productManager.addProduct(producto)
+       console.log(producto)
+        socket.emit('productoCreado', producto)
+    })
 })

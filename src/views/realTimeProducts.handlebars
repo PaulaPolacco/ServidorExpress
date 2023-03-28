@@ -1,4 +1,38 @@
 <h2>WEBSOCKET CLIENT</h2>
 
+<form id="formulario">
+    <label for="title">Título:</label>
+    <input type="text" id="title" name="title"><br>
+
+    <label for="description">Descripción:</label>
+    <input type="text" id="description" name="description"><br>
+
+    <label for="code">Código:</label>
+    <input type="text" id="code" name="code"><br>
+
+    <label for="price">Precio:</label>
+    <input type="text" id="price" name="price"><br>
+
+    <label for="status">Estado:</label>
+    <input type="text" id="status" name="status"><br>
+
+    <label for="stock">Stock:</label>
+    <input type="text" id="stock" name="stock"><br>
+
+    <label for="category">Categoría:</label>
+    <input type="text" id="category" name="category"><br>
+
+    <label for="thumbnail">Miniatura:</label>
+    <input type="text" id="thumbnail" name="thumbnail"><br><br>
+
+    <input type="submit" value="Agregar">
+</form> 
+<h1>Productos</h1>
+<ul id="productos-lista">
+    {{#each products}}
+    <li>id: {{id}} --> {{title}} - precio: {{price}} - stock: {{stock}} - categoria: {{category}}</li>
+    {{/each}}
+</ul>
+
 <script src="/socket.io/socket.io.js"></script>
-<script type= "text/javascript" src='js/index.js'></script>
+<script src='/js/index.js'></script>

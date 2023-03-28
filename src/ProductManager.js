@@ -31,7 +31,7 @@ export default class ProductManager {
     const newProduct = {id, ...product}
     products.push(newProduct)
     await fs.promises.writeFile(this.path, JSON.stringify(products))
-    return {newProduct}
+    return newProduct
   }
 
   updateProduct = async (idProduct, updatedItems) =>{
