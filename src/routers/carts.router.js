@@ -1,19 +1,16 @@
 import { Router } from "express";
-import CartManager from "../CartManager.js";
+//import CartManager from "../dao/CartManagerFS.js";
+import CartManager from "../dao/CartManagerMongo.js"
+import { __dirname } from "../utils.js";
 
 const router = Router();
-const cartManager = new CartManager('Json/carts.json')
-
-// router.get('/:cid', async (req,res)=>{
-//     const {cid} = req.params
-//     const cart = await cartManager.getCart(+cid)
-//     return (cart == undefined) ? res.status(404).send("Carrito no existe") : res.json({cart})
-// })
+//const cartManager = new CartManager(__dirname+'Json/carts.json')
+const cartManager = new CartManager()
 
 router.get('/:cid', async (req,res)=>{
     const {cid} = req.params
     try{
-        const productsCart = await cartManager.getProductsCart(+cid)
+        const productsCart = await cartManager.getProductsCart(cid)
         res.json({productsCart})
     }
     catch (error) {
@@ -37,7 +34,7 @@ router.post('/', async (req,res)=>{
 router.post('/:cid/product/:pid', async (req,res)=>{
     const {cid, pid} = req.params
     try{
-        const cart =  await cartManager.addProductCart(+cid, +pid)
+        const cart =  await cartManager.addProductCart(cid, pid)
         res.json({message: 'Producto agregado/actualizado al carrito', cart: cart})
     }
     catch (error) {

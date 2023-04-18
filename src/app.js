@@ -6,8 +6,8 @@ import cartsRouter from './routers/carts.router.js'
 import viewsRouter from './routers/views.router.js'
 import { __dirname } from "./utils.js";
 import path from 'path'
-import http from 'http'
-import ProductManager from './ProductManager.js'
+import ProductManager from './dao/ProductManagerFS.js'
+import './db/dbConfig.js'
 
            
 const productManager = new ProductManager('Json/products.json')

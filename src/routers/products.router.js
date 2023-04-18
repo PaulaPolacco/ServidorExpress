@@ -1,8 +1,10 @@
 import { Router } from "express";
-import ProductManager from '../ProductManager.js'
+//import ProductManager from '../dao/ProductManagerFS.js'
+import ProductManager from "../dao/ProductManagerMongo.js";
 
 const router = Router();                    
-const productManager = new ProductManager('Json/products.json')
+//const productManager = new ProductManager('Json/products.json')
+const productManager = new ProductManager()
 
 router.get('/', async (req,res)=>{
     const{limit} = req.query
@@ -14,7 +16,7 @@ router.get('/', async (req,res)=>{
 router.get('/:pid', async (req,res)=>{
     const {pid} = req.params
     try{
-        const producto = await productManager.getProductById(+pid) 
+        const producto = await productManager.getProductById(pid) 
         res.json({producto})
     }
     catch (error) {
@@ -28,7 +30,7 @@ router.put('/:pid', async (req,res)=>{
     const {pid} = req.params
     const obj = req.body
     try{
-        const updateProd = await productManager.updateProduct(+pid, obj)
+        const updateProd = await productManager.updateProduct(pid, obj)
         res.json({message: 'Producto actualizado correctamente', product: {updateProd}})
     }
     catch (error) {
@@ -52,7 +54,7 @@ router.post('/', async (req,res)=>{
 router.delete('/:pid', async (req,res)=>{
     const {pid} = req.params
     try{
-        const producto = await productManager.deleteProduct(+pid) 
+        const producto = await productManager.deleteProduct(pid) 
         res.json({producto})
     }
     catch (error) {
