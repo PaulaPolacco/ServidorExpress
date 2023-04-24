@@ -14,9 +14,16 @@ const cartproductSchema = new mongoose.Schema({
   });
 
 const cartsSchema = new mongoose.Schema({
-    products:{
-        type:[cartproductSchema],
-        required:true
-    }
+    products:[{
+      idProd: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Products',
+      },
+      quantity: {
+        type: Number,
+        min: 1
+      },
+      _id: false // desactivar la creación automática del _id
+    }]
 })
 export const cartsModel = mongoose.model('Carts', cartsSchema)
