@@ -13,6 +13,17 @@ router.get('/', async (req,res)=>{
     res.redirect('/views/')
 })
 
+router.get('/aggregation', async (req, res) => {
+    const response = await productManager.aggregationFun()
+    res.json({response})
+})
+
+router.get('/paginate', async (req, res) => {
+    const{limit, page} = req.query
+    const response = await productManager.paginateFun(+limit, +page)
+    res.json({response})
+})
+
 router.get('/:pid', async (req,res)=>{
     const {pid} = req.params
     try{
@@ -62,5 +73,6 @@ router.delete('/:pid', async (req,res)=>{
         res.status(500).send(error.message);
       }
 })
+
 
 export default router;

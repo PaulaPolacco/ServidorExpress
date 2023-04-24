@@ -51,4 +51,56 @@ export default class ProductManager {
             console.log(error)
         }
       }
+
+      aggregationFun = async () => {
+        try {
+            const response = await productsModel.aggregate([
+                { $match: { stock: { $gt: 9 } } },
+                { $group: { _id: '$category', cant_categ: {$count:{}}}},
+                { $sort: {sotck:-1}}
+               // { $count: 'cantidad'}
+            ])
+            return response
+            
+        } catch (error) {
+            console.log(error)
+        }
+      }
+
+      paginateFun = async (limit=10, page=1) => {
+        try {
+            const result = await productsModel.paginate({}, {limit, page})
+            const info ={
+                status:'success',
+                payload: result.docs,
+                totalPages: result.totalPages,
+                prevPage: result.prevPage,
+                nextPage: result.nextPage,
+                page: result.page,
+                hasPrevPage: result.hasPrevPage,
+                hasNextPage: result.hasNextPage,
+                prevLink: result.hasPrevPage ? `http://localhost:8080/api/products/paginate?page=${result.prevPage}`: null,
+                nextLink: result.hasNextPage ? `http://localhost:8080/api/products/paginate?page=${result.nextPage}`: null
+
+            }
+            return info
+            
+        } catch (error) {
+            const info ={
+                status:'error',
+                payload: null,
+                totalPages: null,
+                prevPage: null,
+                nextPage: null,
+                page: null,
+                hasPrevPage: null,
+                hasNextPage: null,
+                prevLink: null,
+                nextLink: null
+
+            }
+            console.log(error)
+            return info
+        }
+      }
 }
