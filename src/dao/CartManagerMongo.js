@@ -27,7 +27,7 @@ export default class ProductManager {
         }
       }
       getProductsCart = async (id)=>{
-        const cart = await cartsModel.findOne({_id: id})
+        const cart = await cartsModel.findOne({_id: id}).populate
         if(cart == undefined)
           throw new Error("Carrito no existe");
         return cart.products

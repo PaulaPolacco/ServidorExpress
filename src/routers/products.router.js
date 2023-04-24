@@ -6,21 +6,22 @@ const router = Router();
 //const productManager = new ProductManager('Json/products.json')
 const productManager = new ProductManager()
 
-router.get('/', async (req,res)=>{
-    const{limit} = req.query
-    const productos = await productManager.getProducts(+limit)
-    res.json({productos})
-    res.redirect('/views/')
+// router.get('/', async (req,res)=>{
+// const{limit} = req.query
+//     const productos = await productManager.getProducts(+limit)
+//     res.json({productos})
+//     res.redirect('/views/')
+// })
+
+router.get('/', async (req, res) => {
+    const{limit=10, page=1, sort='1'} = req.query
+    console.log(limit, page, sort)
+    const response = await productManager.paginateFun(+limit, +page, sort)
+    res.json({response})
 })
 
 router.get('/aggregation', async (req, res) => {
     const response = await productManager.aggregationFun()
-    res.json({response})
-})
-
-router.get('/paginate', async (req, res) => {
-    const{limit, page} = req.query
-    const response = await productManager.paginateFun(+limit, +page)
     res.json({response})
 })
 

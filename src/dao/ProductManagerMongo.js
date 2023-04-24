@@ -67,9 +67,10 @@ export default class ProductManager {
         }
       }
 
-      paginateFun = async (limit=10, page=1) => {
+      paginateFun = async (limit, page, sort) => {
         try {
-            const result = await productsModel.paginate({}, {limit, page})
+            const result = await productsModel.paginate({}, {limit, page, sort})
+            console.log(result)
             const info ={
                 status:'success',
                 payload: result.docs,
@@ -79,8 +80,8 @@ export default class ProductManager {
                 page: result.page,
                 hasPrevPage: result.hasPrevPage,
                 hasNextPage: result.hasNextPage,
-                prevLink: result.hasPrevPage ? `http://localhost:8080/api/products/paginate?page=${result.prevPage}`: null,
-                nextLink: result.hasNextPage ? `http://localhost:8080/api/products/paginate?page=${result.nextPage}`: null
+                prevLink: result.hasPrevPage ? `http://localhost:8080/api/products/paginate?limit=${result.limit}&page=${result.prevPage}`: null,
+                nextLink: result.hasNextPage ? `http://localhost:8080/api/products/paginate?limit=${result.limit}&page=${result.nextPage}`: null
 
             }
             return info
