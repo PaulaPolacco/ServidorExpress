@@ -11,13 +11,14 @@ router.get('/:cid', async (req,res)=>{
     const {cid} = req.params
     try{
         const productsCart = await cartManager.getProductsCart(cid)
-        res.json({productsCart})
+        //res.json({productsCart})
+        res.render('cart', { productsCart } );
     }
     catch (error) {
         console.error(error);
         res.status(404).send(error.message);
       } 
-    
+
 })
 
 router.post('/', async (req,res)=>{

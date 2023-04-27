@@ -8,7 +8,7 @@ import { __dirname } from "./utils.js";
 import path from 'path'
 import ProductManager from './dao/ProductManagerFS.js'
 import './db/dbConfig.js'
-
+import fs from 'fs'
            
 const productManager = new ProductManager('Json/products.json')
 
@@ -26,11 +26,20 @@ app.use('/api/carts', cartsRouter)
 app.use('/api/views', viewsRouter)
 
 // configuracion del motor de plantilla
-
-app.engine('handlebars', handlebars.engine())
-
-app.set('views', __dirname+'/views')
+const hbs = handlebars.create({
+    extname: '.handlebars',
+    defaultLayout: 'main',
+    layoutsDir: path.join(__dirname, 'views/layouts'),
+    partialsDir: path.join(__dirname, 'views/partials'),
+    allowProtoMethodsByDefault: true,
+    allowProtoPropertiesByDefault: true
+  });
+  
+  app.engine('.handlebars', hbs.engine);
+  
+app.set('views', __dirname+'\\views')
 app.set('view engine', 'handlebars')
+
 
 app.get('/api',(req, res) =>{res.send('Bienvenidos')})
 
