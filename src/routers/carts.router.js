@@ -12,7 +12,8 @@ router.get('/:cid', async (req,res)=>{
     try{
         const productsCart = await cartManager.getProductsCart(cid)
         //res.json({productsCart})
-        res.render('cart', { productsCart } );
+
+        res.render('cart', {productsCart});
     }
     catch (error) {
         console.error(error);
@@ -24,6 +25,7 @@ router.get('/:cid', async (req,res)=>{
 router.post('/', async (req,res)=>{
     try{
         const newCart = await cartManager.addCart()
+        req.session.cartId = newCart.id; // Almacenar el ID del carrito en la sesión
         res.json({message: 'Carrito creado correctamente', newCart})
     }
     catch (error) {
@@ -31,6 +33,33 @@ router.post('/', async (req,res)=>{
         res.status(500).send(error.message);
       }   
 })
+
+router.post('/add/:pid', async (req, res) => {
+    const productId = req.params.pid;
+    const cartId = req.session.cartId;
+  
+    if (!cartId) {
+      // Si no hay un carrito asociado a la sesión, crear uno
+      try {
+        const newCart = await cartManager.addCart();
+        req.session.cartId = newCart.id; // Almacenar el ID del carrito en la sesión
+        await cartManager.addProductCart(newCart.id, productId); // Agregar el producto al carrito
+        res.json({ message: 'Producto agregado al carrito', cart: newCart });
+      } catch (error) {
+        console.error(error);
+        res.status(500).send(error.message);
+      }
+    } else {
+      // Si ya hay un carrito asociado a la sesión, agregar el producto al carrito existente
+      try {
+        const cart = await cartManager.addProductCart(cartId, productId);
+        res.json({ message: 'Producto agregado al carrito', cart });
+      } catch (error) {
+        console.error(error);
+        res.status(500).send(error.message);
+      }
+    }
+  });
 
 router.post('/:cid/product/:pid', async (req,res)=>{
     const {cid, pid} = req.params

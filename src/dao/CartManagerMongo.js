@@ -27,7 +27,7 @@ export default class ProductManager {
         }
       }
       getProductsCart = async (id)=>{
-        const cart = await cartsModel.findById({_id: id}).populate('products.idProd')
+        const cart = await cartsModel.findById({_id: id}).populate('products.idProd').lean()
         
         if(cart == undefined)
           throw new Error("Carrito no existe");
@@ -37,7 +37,7 @@ export default class ProductManager {
         let cart = await this.getCart(cid)
         if(cart == undefined)
           throw new Error("Carrito no existe")
-        const products = cart.products
+        const products = cart.products 
         let prod = products.find((p) => p.idProd.toString() === pid);
         if(prod !== undefined)
         prod.quantity += 1

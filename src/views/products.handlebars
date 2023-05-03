@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Productos</title>
+</head>
+<body>
+    <h1>Productos</h1>
+
+    {{#each this.payload}}
+    <ul>
+        <div>
+            <li><h2>{{this.title}}</h2></li>
+            <p>{{this.description}}</p>
+            <p>Precio: ${{this.price}}</p>
+            <p>Categoría: {{this.category}}</p>
+            <form method="post" action="/api/carts/add/{{_id}}">
+                <input type="hidden" name="id" value="{{_id}}">
+                <input type="submit" value="Agregar al carrito">
+            </form>
+        </div>
+    </ul>
+    {{/each}}
+
+    <div>
+        <ul>
+            {{#if hasPrevPage}}
+            <li><a href="{{prevLink}}">Anterior</a></li>
+            {{/if}}
+
+            {{#if hasNextPage}}
+            <li><a href="{{nextLink}}">Siguiente</a></li>
+            {{/if}}
+        </ul>
+    </div>
+</body>
+</html>

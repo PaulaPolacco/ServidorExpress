@@ -8,7 +8,7 @@ import { __dirname } from "./utils.js";
 import path from 'path'
 import ProductManager from './dao/ProductManagerFS.js'
 import './db/dbConfig.js'
-import fs from 'fs'
+import session from 'express-session'
            
 const productManager = new ProductManager('Json/products.json')
 
@@ -18,8 +18,12 @@ app.use(express.static(path.join(__dirname, '/public')))
 console.log (__dirname)
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
-
-
+//session
+app.use(session({
+    secret: 'secretCoder', // llave secreta para firmar la cookie de sesión
+    resave: false, // no volver a guardar la sesión si no hay cambios
+    saveUninitialized: true // guardar sesión aunque esté vacía
+  }));
 //routes
 app.use('/api/products', productsRouter)
 app.use('/api/carts', cartsRouter)
@@ -29,14 +33,16 @@ app.use('/api/views', viewsRouter)
 const hbs = handlebars.create({
     extname: '.handlebars',
     defaultLayout: 'main',
-    layoutsDir: path.join(__dirname, 'views/layouts'),
-    partialsDir: path.join(__dirname, 'views/partials'),
+    layoutsDir: path.join(__dirname, '\\views\\layouts'),
+    partialsDir: path.join(__dirname, '\\views'),
     allowProtoMethodsByDefault: true,
-    allowProtoPropertiesByDefault: true
+    allowProtoPropertiesByDefault: true,
+    helpers: {
+        multiply: function(a, b) { return a * b; }
+      }
   });
   
-  app.engine('.handlebars', hbs.engine);
-  
+app.engine('.handlebars', hbs.engine);
 app.set('views', __dirname+'\\views')
 app.set('view engine', 'handlebars')
 

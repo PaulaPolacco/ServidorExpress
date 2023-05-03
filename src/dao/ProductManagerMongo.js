@@ -67,21 +67,22 @@ export default class ProductManager {
         }
       }
 
-      paginateFun = async (limit, page, sort) => {
+      paginateFun = async (limit, page, sort, query) => {
         try {
-            const result = await productsModel.paginate({}, {limit, page, sort})
-            console.log(result)
+            const result = await productsModel.paginate(query, {limit, page, sort})
+            const leanDocs = [];
+            result.docs.forEach(doc => leanDocs.push(doc.toObject({ virtuals: true })));
             const info ={
                 status:'success',
-                payload: result.docs,
+                payload: leanDocs,
                 totalPages: result.totalPages,
                 prevPage: result.prevPage,
                 nextPage: result.nextPage,
                 page: result.page,
                 hasPrevPage: result.hasPrevPage,
                 hasNextPage: result.hasNextPage,
-                prevLink: result.hasPrevPage ? `http://localhost:8080/api/products/paginate?limit=${result.limit}&page=${result.prevPage}`: null,
-                nextLink: result.hasNextPage ? `http://localhost:8080/api/products/paginate?limit=${result.limit}&page=${result.nextPage}`: null
+                prevLink: result.hasPrevPage ? `http://localhost:8080/api/products?limit=${result.limit}&page=${result.prevPage}`: null,
+                nextLink: result.hasNextPage ? `http://localhost:8080/api/products?limit=${result.limit}&page=${result.nextPage}`: null
 
             }
             return info
