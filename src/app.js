@@ -4,11 +4,14 @@ import { Server } from 'socket.io';
 import productsRouter from './routers/products.router.js'
 import cartsRouter from './routers/carts.router.js'
 import viewsRouter from './routers/views.router.js'
+import usersRouter from './routers/users.router.js'
 import { __dirname } from "./utils.js";
 import path from 'path'
 import ProductManager from './dao/ProductManagerFS.js'
 import './db/dbConfig.js'
 import session from 'express-session'
+import cookieParser from 'cookie-parser'
+import MongoStore from 'connect-mongo';
            
 const productManager = new ProductManager('Json/products.json')
 
@@ -18,16 +21,28 @@ app.use(express.static(path.join(__dirname, '/public')))
 console.log (__dirname)
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
+
+// cookie
+app.use(cookieParser())
 //session
 app.use(session({
+    store:MongoStore.create({
+        mongoUrl:'mongodb+srv://paulapolacco:paula007@cluster0.x7jghpi.mongodb.net/serverExpresDB?retryWrites=true&w=majority',
+        mongoOptions:{useNewUrlParser:true,useUnifiedTopology:true},
+    }),
     secret: 'secretCoder', // llave secreta para firmar la cookie de sesión
     resave: false, // no volver a guardar la sesión si no hay cambios
-    saveUninitialized: true // guardar sesión aunque esté vacía
+    saveUninitialized: false, // guardar sesión aunque esté vacía
+    cookie: {
+        maxAge: 120000,
+      },
   }));
+
 //routes
 app.use('/api/products', productsRouter)
 app.use('/api/carts', cartsRouter)
 app.use('/api/views', viewsRouter)
+app.use('/api/users', usersRouter)
 
 // configuracion del motor de plantilla
 const hbs = handlebars.create({

@@ -4,9 +4,17 @@
     <title>Productos</title>
 </head>
 <body>
+    <div style="display:inline;">
+        <h2>{{this.saludo}}</h2>
+        <!-- Agregar el botón de logout -->
+        <form method="get" action="/api/users/logout">
+            <input type="submit" value="Logout">
+        </form>
+    </div>
+    
     <h1>Productos</h1>
 
-    {{#each this.payload}}
+    {{#each this.response.payload}}
     <ul>
         <div>
             <li><h2>{{this.title}}</h2></li>

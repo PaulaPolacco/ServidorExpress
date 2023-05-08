@@ -14,13 +14,17 @@ const productManager = new ProductManager()
 // })
 
 router.get('/', async (req, res) => {
-    const{limit=10, page=1, sort='1', query={}} = req.query
-    const queryObj = Object.keys(query).length === 0 ? query : JSON.parse(query) // toma objetos tipo { "category": "Tv" }
-    console.log(limit, page, sort, queryObj)
-    const response = await productManager.paginateFun(+limit, +page, sort, queryObj)
-    //res.json({response})  
-    console.log(response)
-    res.render('products', response)
+    if (req.session?.email){
+        const saludo = `Bienvenido ${req.session.email} Rol: ${req.session.isAdmin ? 'Admin' : 'User'}`
+        const{limit=10, page=1, sort='1', query={}} = req.query
+        const queryObj = Object.keys(query).length === 0 ? query : JSON.parse(query) // toma objetos tipo { "category": "Tv" }
+        const response = await productManager.paginateFun(+limit, +page, sort, queryObj)
+        res.render('products', {response, saludo})
+        return
+    }else{
+        console.log('Debe iniciar sesion para visualizar productos')
+        res.redirect('/api/views')
+    }
 })
 
 router.get('/aggregation', async (req, res) => {
