@@ -18,6 +18,10 @@ router.get('/', async(req,res)=>{
     res.render('login')
 })
 
+router.get('/register', (req,res)=>{
+    res.render('register')
+})
+
 router.get('/realtimeproducts', async (req,res)=>{
     const products = await productManager.getProducts()
     res.render('realTimeProducts', {products})

@@ -12,6 +12,8 @@ import './db/dbConfig.js'
 import session from 'express-session'
 import cookieParser from 'cookie-parser'
 import MongoStore from 'connect-mongo';
+import passport from 'passport';
+import './passport/passportStrategies.js'
            
 const productManager = new ProductManager('Json/products.json')
 
@@ -37,6 +39,10 @@ app.use(session({
         maxAge: 120000,
       },
   }));
+
+//passport
+app.use(passport.initialize())
+app.use(passport.session())
 
 //routes
 app.use('/api/products', productsRouter)

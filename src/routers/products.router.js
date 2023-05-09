@@ -14,8 +14,9 @@ const productManager = new ProductManager()
 // })
 
 router.get('/', async (req, res) => {
-    if (req.session?.email){
-        const saludo = `Bienvenido ${req.session.email} Rol: ${req.session.isAdmin ? 'Admin' : 'User'}`
+    console.log(req)
+    if (req.user?.email){
+        const saludo = `Bienvenido ${req.user.email} Rol: ${req.session.isAdmin ? 'Admin' : 'User'}`
         const{limit=10, page=1, sort='1', query={}} = req.query
         const queryObj = Object.keys(query).length === 0 ? query : JSON.parse(query) // toma objetos tipo { "category": "Tv" }
         const response = await productManager.paginateFun(+limit, +page, sort, queryObj)
