@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { __dirname, hashData, compareData } from "../utils.js";
-import { usersModel } from "../db/models/users.model.js";
+import { usersModel } from "../DAL/db/models/users.model.js";
 import passport from "passport";
 
 

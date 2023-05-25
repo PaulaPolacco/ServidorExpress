@@ -7,20 +7,21 @@ import viewsRouter from './routers/views.router.js'
 import usersRouter from './routers/users.router.js'
 import { __dirname } from "./utils.js";
 import path from 'path'
-import ProductManager from './dao/ProductManagerFS.js'
-import './db/dbConfig.js'
+import ProductManager from './DAL/dao/ProductManagerFS.js'
+import './DAL/db/dbConfig.js'
 import session from 'express-session'
 import cookieParser from 'cookie-parser'
 import MongoStore from 'connect-mongo';
 import passport from 'passport';
-import './passport/passportStrategies.js'
+import './middlewares/passport/passportStrategies.js'
+import config from './config.js' 
            
 const productManager = new ProductManager('Json/products.json')
-
-
 const app = express()
+
+const PORT = config.port
+
 app.use(express.static(path.join(__dirname, '/public')))
-console.log (__dirname)
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
@@ -70,7 +71,7 @@ app.set('view engine', 'handlebars')
 
 app.get('/api',(req, res) =>{res.send('Bienvenidos')})
 
-const HttpServer = app.listen(8080, ()=>{console.log('Escuchando al puerto 8080')})
+const HttpServer = app.listen(PORT, ()=>{console.log('Escuchando al puerto '+PORT)})
 //SOCKET
 
 const socketServer = new Server(HttpServer)
