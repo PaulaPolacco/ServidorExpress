@@ -1,29 +1,14 @@
 import { Router } from "express";
+import { viewController } from "../controllers/views.controllers.js";
 import ProductManager from '../DAL/dao/ProductManagerFS.js'
 import { __dirname } from "../utils.js";
 
 const router = Router()
 const productManager = new ProductManager('Json/products.json')
 
-// router.get('/', async(req,res)=>{
-//     const products = await productManager.getProducts()
-//     res.render('home', {products})
-// })
+router.get('/', viewController.viewProducts)
 
-router.get('/', async(req,res)=>{
-    if(req.session.email){
-        res.redirect('/api/products')
-        return
-    }
-    res.render('login')
-})
+router.get('/register', viewController.viewRegister)
 
-router.get('/register', (req,res)=>{
-    res.render('register')
-})
-
-router.get('/realtimeproducts', async (req,res)=>{
-    const products = await productManager.getProducts()
-    res.render('realTimeProducts', {products})
-})
+router.get('/realtimeproducts', viewController.viewRealtime)
 export default router

@@ -53,17 +53,17 @@ passport.use('github', new GitHubStrategy(
     },
     async (accessToken, refreshToken, profile, done)=>{
         console.log(profile)
-        const email = profile._json.email
-        const userDB = await usersModel.findOne({email})
-        if (userDB){
-            done(null,false)
-        }
-        const newUser={
-            first_name: profile._json.name.split(' ')[0],
-            last_name: profile._json.name.split(' ')[1],
-            email,
-            password: ''
-        }
+        // const email = profile._json.email
+        // const userDB = await usersModel.findOne({email})
+        // if (userDB){
+        //     done(null,false)
+        // }
+        // const newUser={
+        //     first_name: profile._json.name.split(' ')[0],
+        //     last_name: profile._json.name.split(' ')[1],
+        //     email,
+        //     password: ''
+        // }
         done(null,false)
  
     }
