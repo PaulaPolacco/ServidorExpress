@@ -15,6 +15,7 @@ import MongoStore from 'connect-mongo';
 import passport from 'passport';
 import './middlewares/passport/passportStrategies.js'
 import config from './config.js' 
+import messagesRouter from './routers/messages.router.js'
            
 const productManager = new ProductManager('Json/products.json')
 const app = express()
@@ -50,6 +51,7 @@ app.use('/api/products', productsRouter)
 app.use('/api/carts', cartsRouter)
 app.use('/api/views', viewsRouter)
 app.use('/api/users', usersRouter)
+app.use('/api/messages', messagesRouter)
 
 // configuracion del motor de plantilla
 const hbs = handlebars.create({
@@ -91,3 +93,4 @@ socketServer.on("connection", (socket)=>{
         socket.emit('productoCreado', producto)
     })
 })
+
